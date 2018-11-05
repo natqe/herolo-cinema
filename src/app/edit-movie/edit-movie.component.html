@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>{{movie.Title}} Movie</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <mat-form-field *ngFor="let control of form.controls | keyvalue">
+      <input matInput [placeholder]="control.key" [formControlName]="control.key" [type]="typeFor(control.key)">
+      <!-- <span matSuffix> {{ control.key === 'Runtime' ? 'minutes' : ''}}</span> -->
+      <mat-error *ngFor="let error of control.value.errors | keyvalue">
+        {{ errorMessage(control, error) }}
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-raised-button mat-dialog-close>CANCEL</button>
+    <!-- The mat-dialog-close directive optionally accepts a value as a result for the dialog. -->
+    <button mat-raised-button mat-dialog-close (click)="submit()" [disabled]="form.untouched || form.invalid" color="accent">SAVE</button>
+  </mat-dialog-actions>

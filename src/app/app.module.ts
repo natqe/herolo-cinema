@@ -1,18 +1,45 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { BrowserModule } from '@angular/platform-browser'
+import { NgModule } from '@angular/core'
+import { AppComponent } from './app.component'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { MoviesComponent } from './movies/movies.component'
+import { HttpModule } from '@angular/http'
+import { MatCardModule, MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatToolbarModule } from '@angular/material'
+import { MovieComponent } from './movie/movie.component'
+import { FlexLayoutModule } from '@angular/flex-layout'
+import { EditMovieComponent } from './edit-movie/edit-movie.component'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { DeleteMovieComponent } from './delete-movie/delete-movie.component';
+import { AddNewMovieComponent } from './add-new-movie/add-new-movie.component'
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    MoviesComponent,
+    MovieComponent,
+    EditMovieComponent,
+    DeleteMovieComponent,
+    AddNewMovieComponent
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    BrowserAnimationsModule,
+    HttpModule,
+    MatCardModule,
+    MatButtonModule,
+    FlexLayoutModule,
+    MatDialogModule,
+    MatFormFieldModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    MatToolbarModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [
+    EditMovieComponent,
+    DeleteMovieComponent
+  ]
 })
 export class AppModule { }

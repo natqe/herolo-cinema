@@ -1,0 +1,21 @@
+<mat-card>
+    <mat-card-header>
+      <!-- <div mat-card-avatar class="card-header-image"></div> -->
+      <mat-card-title [textContent]="Title"></mat-card-title>
+      <mat-card-subtitle>by {{Director}}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image [src]="Poster" alt="Poster of {{ Title }}">
+    <mat-card-content>
+      <div [textContent]="Genre"></div>
+      <div style="margin-top: .5rem">
+        <small>{{ Runtime }}utes</small>
+      </div>
+      <div style="margin-top: .5rem">
+        <small>Release in {{ Year }}</small>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+          <button mat-stroked-button (click)="edit()" color="primary">EDIT</button>
+          <button mat-stroked-button (click)="delete()" color="warn">DELETE</button> 
+    </mat-card-actions>
+  </mat-card>

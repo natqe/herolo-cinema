@@ -11,13 +11,11 @@ export class LogService {
 
   private static readonly instances = new class application { }
 
-  private static devMode = isDevMode()
-
   constructor() {
 
     this.debugClass(this)
 
-    if (LogService.devMode) {
+    if (isDevMode()) {
 
       this.onTime('Init', '#e7c5ad')
 
@@ -73,7 +71,7 @@ export class LogService {
 
   debugClass(that) {
 
-    if (LogService.devMode) LogService.instances[ensureUnique(lowerFirst(that.constructor.name), keys(LogService.instances))] = that
+    if (isDevMode()) LogService.instances[ensureUnique(lowerFirst(that.constructor.name), keys(LogService.instances))] = that
 
     return this
 
@@ -81,7 +79,7 @@ export class LogService {
 
   now(...args) {
 
-    if (LogService.devMode) {
+    if (isDevMode()) {
 
       this.onTime('Cloned', '#00BFFF')
 
@@ -95,7 +93,7 @@ export class LogService {
 
   error(...args) {
 
-    console[LogService.devMode ? 'error' : 'trace'](`${prefix(!LogService.devMode && 'Error in ', moment().format('h:mm:ss.SSS'))} :`, ...args)
+    console[isDevMode() ? 'error' : 'trace'](`${prefix(!isDevMode() && 'Error in ', moment().format('h:mm:ss.SSS'))} :`, ...args)
 
     return this
 
@@ -103,7 +101,7 @@ export class LogService {
 
   debug(...args) {
 
-    if (LogService.devMode) console.trace(...args)
+    if (isDevMode()) console.trace(...args)
 
     return this
 
@@ -111,7 +109,7 @@ export class LogService {
 
   invoke(fn: Function, now = false) {
 
-    if (LogService.devMode) this[!now ? 'debug' : 'now'](...castArray(fn()))
+    if (isDevMode()) this[!now ? 'debug' : 'now'](...castArray(fn()))
 
     return this
 

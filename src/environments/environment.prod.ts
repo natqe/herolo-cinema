@@ -1,3 +1,6 @@
+import { general } from './environment.general'
+
 export const environment = {
-  production: true
-};
+  production: true,
+  ...general
+}
