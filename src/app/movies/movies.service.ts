@@ -14,19 +14,27 @@ import { movie } from '../movie/movie.type'
 })
 export class MoviesService {
 
-  list: movie[]
+  list: movie[] = []
 
-  constructor(logService: LogService, http: Http) {
+  constructor(
+    readonly logService: LogService,
+    private readonly http: Http) {
 
     logService.debugClass(this)
 
-    forkJoin(
-      times(100, () => 'tt' + padStart(random(1, 1000000, false).toString(), 7, '0')).map(i => http.get(environment.OMDB_API_ORIGIN, {
-        params: {
-          i,
-          apikey: environment.OMDB_API_KEY
-        }
-      }).pipe(map(res => res.json())))
+    this.init()
+
+  }
+
+  private apikeyIndex = 0
+
+  private init() {
+
+    const apikey = environment.OMDB_API_KEYS[this.apikeyIndex]
+
+    if (apikey) forkJoin(
+      times(100, () => 'tt' + padStart(random(1, 1000000, false).toString(), 7, '0')).
+        map(i => this.http.get(environment.OMDB_API_ORIGIN, { params: { i, apikey } }).pipe(map(res => res.json())))
     ).subscribe({
       next: value => this.list = value.
         filter(({ Type, Poster, Runtime, Director, Title, Year, Genre }) =>
@@ -42,7 +50,7 @@ export class MoviesService {
           Title: this.treatTitle(Title),
           Id: generate()
         })),
-      error: logService.error
+      error: e => environment.OMDB_API_KEYS[++this.apikeyIndex] ? this.init() : this.logService.error(e)
     })
 
   }

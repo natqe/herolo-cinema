@@ -1,10 +1,10 @@
 import { Component, Inject } from '@angular/core'
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material'
+import { MAT_DIALOG_DATA } from '@angular/material'
 import { movie } from '../movie/movie.type'
 import { LogService } from '../log/log.service'
-import { FormControl, Validators, FormGroup, AbstractControl } from '@angular/forms'
+import { FormControl, Validators, FormGroup } from '@angular/forms'
 import { MoviesService } from '../movies/movies.service'
-import { merge } from 'lodash'
+import { merge, get } from 'lodash'
 
 @Component({
   selector: 'app-edit-movie',
@@ -13,19 +13,12 @@ import { merge } from 'lodash'
 })
 export class EditMovieComponent {
 
-  private _displayErrors: boolean
-
   constructor(
     @Inject(MAT_DIALOG_DATA)
     readonly movie: movie,
     readonly logService: LogService,
-    private readonly matDialogRef: MatDialogRef<EditMovieComponent>,
     private readonly moviesService: MoviesService) {
-
     logService.debugClass(this)
-
-    // this.matDialogRef.disableClose = true
-
   }
 
   readonly form = new FormGroup({
@@ -35,7 +28,7 @@ export class EditMovieComponent {
     ]),
     Genre: new FormControl(this.movie.Genre, [Validators.required]),
     Director: new FormControl(this.movie.Director, [Validators.required]),
-    Runtime: new FormControl(+this.movie.Runtime.match(/\d+/)[0], [Validators.required, Validators.min(1)]),
+    Runtime: new FormControl(+get(this.movie.Runtime.match(/\d+/), '0') || undefined, [Validators.required, Validators.min(1)]),
     Year: new FormControl(this.movie.Year, [Validators.required, Validators.min(1870), Validators.max(2018)])
   })
 
@@ -46,10 +39,6 @@ export class EditMovieComponent {
       case 'max':
       case 'min': return `${control.key} cant be ${control.value.value}`
     }
-  }
-
-  get displayErrors() {
-    return this._displayErrors
   }
 
   typeFor(field: string) {
@@ -76,7 +65,7 @@ export class EditMovieComponent {
 
       original.Title = this.moviesService.treatTitle(original.Title)
 
-    } else this._displayErrors = true
+    }
   }
 
 }

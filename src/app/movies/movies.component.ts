@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { MoviesService } from './movies.service'
 import { LogService } from '../log/log.service'
-import { movie } from '../movie/movie.type';
+import { movie } from '../movie/movie.type'
 
 @Component({
   selector: 'app-movies',

@@ -4,7 +4,7 @@ import { AppComponent } from './app.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MoviesComponent } from './movies/movies.component'
 import { HttpModule } from '@angular/http'
-import { MatCardModule, MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatToolbarModule } from '@angular/material'
+import { MatCardModule, MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatToolbarModule, MatProgressSpinnerModule } from '@angular/material'
 import { MovieComponent } from './movie/movie.component'
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { EditMovieComponent } from './edit-movie/edit-movie.component'
@@ -33,7 +33,8 @@ import { AddNewMovieComponent } from './add-new-movie/add-new-movie.component'
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent],

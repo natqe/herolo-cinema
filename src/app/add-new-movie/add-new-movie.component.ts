@@ -14,7 +14,9 @@ export class AddNewMovieComponent {
 
   constructor(
     readonly logService: LogService,
-    private readonly matDialog: MatDialog) { }
+    private readonly matDialog: MatDialog) {
+    logService.debugClass(this)
+  }
 
   click() {
     this.matDialog.open(EditMovieComponent, {

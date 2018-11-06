@@ -1,2 +1,3 @@
-<app-movie style="margin:15px" fxFlex="20%" fxFlex.md="30%" fxFlex.sm="40%" fxFlex.xs="100%"*ngFor="let item of list; trackBy: uniqProp" [Title]="item.Title" [Id]="item.Id" [Runtime]="item.Runtime" [Genre]="item.Genre"
-[Year]="item.Year" [Director]="item.Director" [Poster]="item.Poster"></app-movie>
+<app-movie fxFlex="20%" fxFlex.md="30%" fxFlex.sm="40%" fxFlex.xs="100%" *ngFor="let item of list; trackBy: uniqProp" [Title]="item.Title"
+  [Id]="item.Id" [Runtime]="item.Runtime" [Genre]="item.Genre" [Year]="item.Year" [Director]="item.Director" [Poster]="item.Poster"></app-movie>
+<mat-spinner *ngIf="!list.length"></mat-spinner>
