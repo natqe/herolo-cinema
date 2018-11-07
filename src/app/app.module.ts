@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core'
 import { AppComponent } from './app.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { MoviesComponent } from './movies/movies.component'
-import { HttpModule } from '@angular/http'
+import { HttpClientModule } from '@angular/common/http'
 import { MatCardModule, MatButtonModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatToolbarModule, MatProgressSpinnerModule } from '@angular/material'
 import { MovieComponent } from './movie/movie.component'
 import { FlexLayoutModule } from '@angular/flex-layout'
@@ -24,7 +24,7 @@ import { AddNewMovieComponent } from './add-new-movie/add-new-movie.component'
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
-    HttpModule,
+    HttpClientModule,
     MatCardModule,
     MatButtonModule,
     FlexLayoutModule,
