@@ -64,7 +64,7 @@ export class MoviesService {
 
     if (item.Title) item.Title = this.treatTitle(item.Title)
 
-    const original = find(this._list, { Id: item.Id }) //safety  
+    const original = find(this._list, { Id: item.Id })
 
     original ? merge(original, item) : this._list.push(<IMovie>item)
 
