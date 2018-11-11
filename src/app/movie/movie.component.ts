@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core'
-import { movie } from './movie.type'
+import { IMovie } from './movie.model'
 import { LogService } from '../log/log.service'
 import { MatDialog } from '@angular/material'
 import { EditMovieComponent } from '../edit-movie/edit-movie.component'
@@ -10,7 +10,7 @@ import { DeleteMovieComponent } from '../delete-movie/delete-movie.component'
   templateUrl: './movie.component.html',
   styleUrls: ['./movie.component.scss']
 })
-export class MovieComponent implements movie {
+export class MovieComponent implements IMovie {
 
   @Input()
   Title: string

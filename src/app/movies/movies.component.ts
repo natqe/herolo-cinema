@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { MoviesService } from './movies.service'
 import { LogService } from '../log/log.service'
-import { movie } from '../movie/movie.type'
+import { IMovie } from '../movie/movie.model'
 
 @Component({
   selector: 'app-movies',
@@ -20,7 +20,7 @@ export class MoviesComponent {
     return this.moviesService.list
   }
 
-  uniqProp({ }, { Id }: movie) {
+  uniqProp({ }, { Id }: IMovie) {
     return Id
   }
 

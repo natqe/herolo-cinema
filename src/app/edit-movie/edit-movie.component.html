@@ -11,5 +11,5 @@
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-raised-button mat-dialog-close>CANCEL</button>
-  <button mat-raised-button mat-dialog-close (click)="submit()" [disabled]="form.untouched || form.invalid" color="accent">SAVE</button>
+  <button mat-raised-button mat-dialog-close (click)="submit()" [disabled]="!form.dirty || form.invalid" color="accent">SAVE</button>
 </mat-dialog-actions>

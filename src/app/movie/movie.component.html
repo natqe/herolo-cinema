@@ -6,12 +6,8 @@
   <img mat-card-image [src]="Poster" alt="Poster of {{ Title }}">
   <mat-card-content>
     <div [textContent]="Genre"></div>
-    <div style="margin-top: .5rem">
-      <small>{{ Runtime }}utes</small>
-    </div>
-    <div style="margin-top: .5rem">
-      <small>Release in {{ Year }}</small>
-    </div>
+    <small>{{ Runtime }}utes</small>
+    <small>Release in {{ Year }}</small>
   </mat-card-content>
   <mat-card-actions>
     <button mat-stroked-button (click)="edit()" color="primary">EDIT</button>

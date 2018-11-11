@@ -1,10 +1,10 @@
 import { Component, Inject } from '@angular/core'
 import { MAT_DIALOG_DATA } from '@angular/material'
-import { movie } from '../movie/movie.type'
+import { IMovie } from '../movie/movie.model'
 import { LogService } from '../log/log.service'
 import { FormControl, Validators, FormGroup } from '@angular/forms'
 import { MoviesService } from '../movies/movies.service'
-import { merge, get } from 'lodash'
+import { get } from 'lodash'
 
 @Component({
   selector: 'app-edit-movie',
@@ -15,7 +15,7 @@ export class EditMovieComponent {
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    readonly movie: movie,
+    readonly movie: IMovie,
     readonly logService: LogService,
     private readonly moviesService: MoviesService) {
     logService.debugClass(this)
@@ -50,22 +50,11 @@ export class EditMovieComponent {
   }
 
   submit() {
-    if (this.form.valid) {
-
-      let original = this.moviesService.list.find(({ Id }) => this.movie.Id === Id)
-
-      if (!original) this.moviesService.list.push(original = <movie>{
-        Id: this.movie.Id,
-        Poster: this.movie.Poster
-      })
-
-      merge(original, this.form.value)
-
-      original.Runtime = `${original.Runtime} min`
-
-      original.Title = this.moviesService.treatTitle(original.Title)
-
-    }
+    if (this.form.valid) this.moviesService.upsert({
+      ...this.movie,
+      ...this.form.value,
+      Runtime: `${this.form.value.Runtime} min`
+    })
   }
 
 }
