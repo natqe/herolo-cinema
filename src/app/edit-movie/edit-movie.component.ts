@@ -51,8 +51,9 @@ export class EditMovieComponent {
 
   submit() {
     if (this.form.valid) this.moviesService.upsert({
-      ...this.movie,
       ...this.form.value,
+      Id: this.movie.Id,
+      Poster: this.movie.Poster,
       Runtime: `${this.form.value.Runtime} min`
     })
   }
