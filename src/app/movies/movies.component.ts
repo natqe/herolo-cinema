@@ -1,7 +1,9 @@
 import { Component } from '@angular/core'
-import { MoviesService } from './movies.service'
 import { LogService } from '../log/log.service'
-import { IMovie } from '../movie/movie.model'
+import { MovieModel } from '../movie/movie.model'
+import { Observable } from 'rxjs'
+import { Select } from '@ngxs/store'
+import { MoviesState } from './movies.state'
 
 @Component({
   selector: 'app-movies',
@@ -10,17 +12,17 @@ import { IMovie } from '../movie/movie.model'
 })
 export class MoviesComponent {
 
-  constructor(
-    readonly logService: LogService,
-    private readonly moviesService: MoviesService) {
+  @Select(MoviesState.items)
+  movies: Observable<ReturnType<typeof MoviesState.items>>
+
+  @Select(MoviesState.inLoadProcess)
+  loading: Observable<ReturnType<typeof MoviesState.inLoadProcess>>
+
+  constructor(readonly logService: LogService) {
     logService.debugClass(this)
   }
 
-  get list() {
-    return this.moviesService.list
-  }
-
-  uniqProp({ }, { Id }: IMovie) {
+  uniqProp({ }, { Id }: MovieModel) {
     return Id
   }
 

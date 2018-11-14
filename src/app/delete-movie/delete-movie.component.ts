@@ -1,8 +1,9 @@
 import { Component, Inject } from '@angular/core'
 import { MAT_DIALOG_DATA } from '@angular/material'
-import { IMovie } from '../movie/movie.model'
+import { MovieModel } from '../movie/movie.model'
 import { LogService } from '../log/log.service'
-import { MoviesService } from '../movies/movies.service'
+import { Emitter, Emittable } from '@ngxs-labs/emitter'
+import { MoviesState } from '../movies/movies.state'
 
 @Component({
   selector: 'app-delete-movie',
@@ -11,16 +12,14 @@ import { MoviesService } from '../movies/movies.service'
 })
 export class DeleteMovieComponent {
 
+  @Emitter(MoviesState.remove)
+  delete: Emittable<void>
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    readonly movie: IMovie,
-    readonly logService: LogService,
-    private readonly moviesService: MoviesService) {
+    readonly movie: MovieModel,
+    readonly logService: LogService) {
     logService.debugClass(this)
-  }
-
-  delete() {
-    this.moviesService.remove(this.movie.Id)
   }
 
 }

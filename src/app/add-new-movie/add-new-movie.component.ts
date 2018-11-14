@@ -2,7 +2,7 @@ import { Component } from '@angular/core'
 import { LogService } from '../log/log.service'
 import { MatDialog } from '@angular/material'
 import { EditMovieComponent } from '../edit-movie/edit-movie.component'
-import { IMovie } from '../movie/movie.model'
+import { MovieModel } from '../movie/movie.model'
 import { generate } from 'shortid'
 
 @Component({
@@ -20,7 +20,7 @@ export class AddNewMovieComponent {
 
   click() {
     this.matDialog.open(EditMovieComponent, {
-      data: <IMovie>{
+      data: <MovieModel>{
         Director: '',
         Genre: '',
         Id: generate(),

@@ -9,8 +9,12 @@ import { MovieComponent } from './movie/movie.component'
 import { FlexLayoutModule } from '@angular/flex-layout'
 import { EditMovieComponent } from './edit-movie/edit-movie.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { DeleteMovieComponent } from './delete-movie/delete-movie.component';
+import { DeleteMovieComponent } from './delete-movie/delete-movie.component'
 import { AddNewMovieComponent } from './add-new-movie/add-new-movie.component'
+import { NgxsModule } from '@ngxs/store'
+import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin'
+import { MoviesState } from './movies/movies.state'
+import { NgxsEmitPluginModule } from '@ngxs-labs/emitter'
 
 @NgModule({
   declarations: [
@@ -34,7 +38,12 @@ import { AddNewMovieComponent } from './add-new-movie/add-new-movie.component'
     ReactiveFormsModule,
     MatInputModule,
     MatToolbarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    NgxsModule.forRoot([ MoviesState ], {
+      developmentMode: true
+    }),
+    NgxsReduxDevtoolsPluginModule.forRoot({}),
+    NgxsEmitPluginModule.forRoot()
   ],
   providers: [],
   bootstrap: [AppComponent],

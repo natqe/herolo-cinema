@@ -1,10 +1,13 @@
 import { Component, Inject } from '@angular/core'
 import { MAT_DIALOG_DATA } from '@angular/material'
-import { IMovie } from '../movie/movie.model'
+import { MovieModel } from '../movie/movie.model'
 import { LogService } from '../log/log.service'
-import { FormControl, Validators, FormGroup } from '@angular/forms'
-import { MoviesService } from '../movies/movies.service'
+import { FormControl, Validators, FormGroup, ValidationErrors } from '@angular/forms'
 import { get } from 'lodash'
+import { Emitter, Emittable } from '@ngxs-labs/emitter'
+import { MoviesState } from '../movies/movies.state'
+import { Select } from '@ngxs/store'
+import { Observable } from 'rxjs'
 
 @Component({
   selector: 'app-edit-movie',
@@ -13,18 +16,33 @@ import { get } from 'lodash'
 })
 export class EditMovieComponent {
 
+  @Select(MoviesState.items)
+  movies: Observable<ReturnType<typeof MoviesState.items>>
+
+  @Emitter(MoviesState.upsert)
+  upsert: Emittable
+
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    readonly movie: IMovie,
-    readonly logService: LogService,
-    private readonly moviesService: MoviesService) {
+    readonly movie: MovieModel,
+    readonly logService: LogService) {
     logService.debugClass(this)
   }
 
   readonly form = new FormGroup({
     Title: new FormControl(this.movie.Title, [
       Validators.required,
-      ({ value }) => this.moviesService.list.every(({ Title, Id }) => Title !== value || Id === this.movie.Id) ? null : { duplicate: true }
+      ({ value }) => {
+
+        let validationErrors: ValidationErrors
+
+        this.movies.subscribe(movies => {
+          if(movies.some(({ Title, Id }) => Title === value.trim() && Id !== this.movie.Id)) validationErrors = { duplicate: true }
+        })
+
+        return validationErrors
+
+      }
     ]),
     Genre: new FormControl(this.movie.Genre, [Validators.required]),
     Director: new FormControl(this.movie.Director, [Validators.required]),
@@ -50,12 +68,12 @@ export class EditMovieComponent {
   }
 
   submit() {
-    if (this.form.valid) this.moviesService.upsert({
+    if (this.form.valid) this.upsert.emit([{
       ...this.form.value,
       Id: this.movie.Id,
       Poster: this.movie.Poster,
       Runtime: `${this.form.value.Runtime} min`
-    })
+    }])
   }
 
 }

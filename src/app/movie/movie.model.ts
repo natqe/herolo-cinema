@@ -1,4 +1,4 @@
-export interface IMovie {
+export class MovieModel {
   Title: string
   Runtime: string
   Genre: string
