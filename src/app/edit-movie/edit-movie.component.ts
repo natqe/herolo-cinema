@@ -20,7 +20,7 @@ export class EditMovieComponent {
   movies: Observable<ReturnType<typeof MoviesState.items>>
 
   @Emitter(MoviesState.upsert)
-  upsert: Emittable
+  upsert: Emittable<Array<Partial<MovieModel> & { Id: MovieModel['Id'] }>>
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -36,9 +36,11 @@ export class EditMovieComponent {
 
         let validationErrors: ValidationErrors
 
-        this.movies.subscribe(movies => {
-          if(movies.some(({ Title, Id }) => Title === value.trim() && Id !== this.movie.Id)) validationErrors = { duplicate: true }
-        })
+        this.movies.
+          subscribe(movies => {
+            if (movies.some(({ Title, Id }) => Title === value.trim() && Id !== this.movie.Id)) validationErrors = { duplicate: true }
+          }).
+          unsubscribe()
 
         return validationErrors
 

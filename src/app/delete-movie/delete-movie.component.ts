@@ -13,7 +13,7 @@ import { MoviesState } from '../movies/movies.state'
 export class DeleteMovieComponent {
 
   @Emitter(MoviesState.remove)
-  delete: Emittable<void>
+  delete: Emittable<MovieModel['Id'][]>
 
   constructor(
     @Inject(MAT_DIALOG_DATA)

@@ -1,6 +1,6 @@
 import { State, Selector, StateContext, NgxsOnInit } from '@ngxs/store'
 import { MovieModel } from '../movie/movie.model'
-import { find, startCase, deburr, defaultsDeep, times, padStart, random, findIndex } from 'lodash'
+import { startCase, deburr, defaultsDeep, times, padStart, random, findIndex } from 'lodash'
 import { Receiver, EmitterAction } from '@ngxs-labs/emitter'
 import { HttpClient } from '@angular/common/http'
 import { forkJoin } from 'rxjs'
@@ -39,19 +39,15 @@ export class MoviesState implements NgxsOnInit {
 
     const movies = [...getState().movies]
 
-    payload.forEach(item => {
+    for (const item of payload) {
 
-      const
-        original = find(movies, { Id: item.Id }),
-        originalIndex = findIndex(movies, { Id: item.Id })
+      const originalIndex = findIndex(movies, { Id: item.Id })
 
       item.Title = this.treatTitle(item.Title)
 
-      original ? movies[originalIndex] = defaultsDeep(item, original) : movies.push(<MovieModel>item)
-
-    })
-
-    new LogService().now(movies)
+      originalIndex !== -1 ? movies[originalIndex] = defaultsDeep(item, movies[originalIndex]) : movies.push(<MovieModel>item)
+      
+    }
 
     patchState({ movies })
 
